@@ -1,6 +1,6 @@
 -- RoxyDialogueIndicator
 
-local DEFAULT_INDICATOR_PATH           <const> = "roxy/dialogue/assets/images/pagination"
+local DEFAULT_INDICATOR_PATH           <const> = "libraries/roxy-dialogue/assets/images/pagination"
 local DEFAULT_INDICATOR_FRAME_DURATION <const> = 0.2 -- Seconds between indicator frames
 local INDICATOR_SIZE                   <const> = 20
 local DEFAULT_INDICATOR_Z_INDEX_OFFSET <const> = 1   -- Default z-index bump

@@ -64,9 +64,9 @@ local newRectImage <const> = roxy.UI.newRectImage
 -- ! Imports                          --
 -- ---------------------------------- --
 
-import "roxy/dialogue/pager"
-import "roxy/dialogue/typewriter"
-import "roxy/dialogue/indicator"
+import "libraries/roxy-dialogue/core/RoxyDialogueIndicator"
+import "libraries/roxy-dialogue/core/RoxyPager"
+import "libraries/roxy-dialogue/core/RoxyTypewriter"
 
 -- ---------------------------------- --
 -- ! Constants                        --
@@ -99,7 +99,7 @@ local DISPLAY_WIDTH  <const> = roxy.Graphics.displayWidth
 local DISPLAY_HEIGHT <const> = roxy.Graphics.displayHeight
 
 -- Input
-local makeInputHandler <const> = import "roxy/dialogue/input"
+local makeInputHandler <const> = import "libraries/roxy-dialogue/core/RoxyDialogueInput"
 
 -- ---------------------------------- --
 -- ! Register Assets                  --
@@ -123,6 +123,7 @@ class("RoxyDialogue").extends(RoxySprite)
 
 -- ! Constructor
 function RoxyDialogue:init(text, props)
+
   RoxyDialogue.super.init(self)
   props = props or {}
   text  = text or ""
@@ -447,3 +448,5 @@ function RoxyDialogue:draw()
   local image = self.typewriter:isComplete() and self._finishedImage or self._typingBuffer
   if image then image:draw(0, 0) end
 end
+
+return RoxyDialogue
