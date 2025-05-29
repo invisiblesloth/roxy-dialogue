@@ -20,12 +20,12 @@ Add the plugin to your game project using Git submodules:
 
 ```bash
 git submodule add https://github.com/invisiblesloth/roxy-dialogue source/libraries/roxy-dialogue
-````
+```
 
-Build with the additional path:
+Build your project:
 
 ```bash
-pdc -I source/libraries/roxy-dialogue/source source MyGame.pdx
+pdc source GameName.pdx
 ```
 
 In your game code, import the plugin and use it:
