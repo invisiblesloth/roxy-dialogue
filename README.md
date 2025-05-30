@@ -35,6 +35,7 @@ import "libraries/roxy-dialogue/dialogue"
 
 -- Usage
 local dialogue = RoxyDialogue("It’s dangerous to go alone! Take this.")
+dialogue:activate()
 ```
 
 ---
