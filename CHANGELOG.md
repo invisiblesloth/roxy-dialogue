@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.2.0] - 2025-06-11
+
+### Changed 🔧
+- Updated `RoxyDialogue` input activation/deactivation logic to use the new priority-based input stack
+- Input handlers now registered with `addHandler(self, handler, 100)` and removed with `removeHandler(self)`
+- Enabled modal behavior using `Input.makeModalHandler(handler)` if `self.modal` is true
+
+### Breaking Changes ⚠️
+- Removed deprecated `saveAndSetHandler` and `restoreHandler` input APIs
+- Plugins or forks overriding `activate()` and `deactivate()` must migrate to:
+  - `Input.addHandler(owner, handler, priority)`
+  - `Input.removeHandler(owner)`
+- For modal dialogues, wrap handlers with `Input.makeModalHandler(handler)`
+- See [BREAKING_CHANGES.md](./BREAKING_CHANGES.md) for full migration steps
+
+---
+
 ## [0.1.1] - 2025-05-29
 
 ### Added ✨

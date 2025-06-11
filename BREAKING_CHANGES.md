@@ -4,6 +4,44 @@ This document catalogs all **breaking changes** introduced across the Roxy Dialo
 
 ---
 
+## [0.2.0] - 2025-06-11
+
+### Input Handler API Replaced
+
+**What Changed:**
+- Removed deprecated input stack functions `saveAndSetHandler` and `restoreHandler`.
+- Updated `RoxyDialogue:activate()` and `:deactivate()` to use `roxy.Input.addHandler(owner, handler, priority)` and `roxy.Input.removeHandler(owner)`.
+- Optional modal behavior is now handled explicitly using `roxy.Input.makeModalHandler(handler)`.
+
+**Required Updates:**
+If you have custom forks or override `RoxyDialogue`'s input logic:
+
+- **Replace:**
+  ```lua
+  saveAndSetHandler(handler, mask)
+  ...
+  restoreHandler()
+  ```
+
+- **With:**
+
+  ```lua
+  addHandler(self, handler, 100)
+  ...
+  removeHandler(self)
+  ```
+
+- If `self.modal == true`, wrap your handler like this:
+
+  ```lua
+  handler = Input.makeModalHandler(handler)
+  ```
+
+**Reason:**
+This change aligns the plugin with the latest `roxy-engine` core input model, ensuring better control, stack safety, and modular input handling.
+
+---
+
 ## [0.1.1] - 2025-05-29
 
 ### Plugin Initialization Path Changed
@@ -14,7 +52,6 @@ This document catalogs all **breaking changes** introduced across the Roxy Dialo
 - Updated internal loading to use `pcall` for safer initialization with fallback logging via `Log.warn` or `warn`.
 
 **Required Updates:**
-
 - Update your plugin import path:
 
   - **Before:**
