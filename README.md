@@ -20,7 +20,7 @@ Add the plugin to your game project using Git submodules:
 
 ```bash
 git submodule add https://github.com/invisiblesloth/roxy-dialogue source/libraries/roxy-dialogue
-```
+````
 
 Build your project:
 
@@ -51,6 +51,44 @@ It relies on Roxy’s:
 - Scene integration (`roxy.Scene`)
 
 It will not work in non-Roxy game projects without modification.
+
+---
+
+## Customization Options
+
+Customize appearance and behavior using `props` when creating a new dialogue:
+
+```lua
+local props = {
+  x = 50,
+  y = 180,
+  width = 240,
+  height = 70,
+  font = yourFont,
+  alignment = Text.ALIGN_LEFT,     -- Text alignment
+  color = Theme.colors.text,
+  background = Theme.colors.panel,
+  cornerRadius = 6,                -- Dialogue box roundness
+  hasBackground = true,            -- Whether to show a background box
+  numberOfLines = 3,               -- Max lines per page
+  leading = 2,                     -- Line spacing
+  paddingHorizontal = 10,
+  paddingVertical = 10,
+  zIndex = 1000,                   -- Sprite layer priority
+  typingSpeed = 90,                -- Characters per second
+  fastMultiplier = 20,             -- Speed boost when fast-advancing
+  fastTypingSpeed = 240,           -- Override fast speed if needed
+  instant = false,                 -- Show full text immediately
+  indicatorX = nil,                -- Override indicator X position
+  indicatorY = nil,                -- Override indicator Y position
+  inputHandler = nil,              -- Custom input handler (optional)
+  modal = true,                    -- If true, wraps handler in makeModalHandler()
+  onDismiss = function() end,      -- Callback when dialogue ends
+  isActive = true                  -- Auto-starts typewriter on init
+}
+```
+
+You can also call `dialogue:startTypewriter()` manually if `isActive` is `false`.
 
 ---
 
