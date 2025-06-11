@@ -49,8 +49,8 @@ local cacheAsset          <const> = Cache.cacheAsset
 local evictAsset          <const> = Cache.evictAsset
 
 -- Input
-local saveAndSetHandler <const> = Input.saveAndSetHandler
-local restoreHandler    <const> = Input.restoreHandler
+local addHandler    <const> = roxy.Input.addHandler
+local removeHandler <const> = roxy.Input.removeHandler
 
 -- Text / theme
 local getFontOffset  <const> = Text.getFontOffset
@@ -356,38 +356,44 @@ end
 -- ---------------------------------- --
 
 -- ! Activate
--- Adds dialogue to scene and optionally sets up input handling
-function RoxyDialogue:activate(pushHandler, handlerOverride, masksPreviousHandlers)
+-- Adds dialogue to scene and sets up input handling according to modal setting
+function RoxyDialogue:activate(pushHandler, handlerOverride)
   if self.isActive then return self end
 
   self:add()
   self.isActive = true
 
-  -- Only push a handler if pushHandler is *not* explicitly false
   if pushHandler ~= false then
     local handlerSpec = handlerOverride or self._inputHandler
     local handler
 
     if handlerSpec then
-      if type(handlerSpec) ~= "function" and type(handlerSpec) ~= "table" then logWarn("RoxyDialogue: Invalid inputHandler type (" .. type(handlerSpec) .. "). Expected function or table.") end --#DEBUG
+      --#DEBUG START
+      if type(handlerSpec) ~= "function" and type(handlerSpec) ~= "table" then
+        logWarn("RoxyDialogue: Invalid inputHandler type (" .. type(handlerSpec) .. "). Expected function or table.")
+      end
+      --#DEBUG END
 
-      -- Convert function to table if needed
       handler = (type(handlerSpec) == "function") and handlerSpec(self) or handlerSpec
-
-      -- Remember it for future implicit activations
       self._inputHandler = handlerSpec
-    else
-      -- Fallback to default Roxy dialogue input handler
-      handler = makeInputHandler(self)
     end
 
-    if not handler then logWarn("RoxyDialogue: Failed to construct valid input handler. Skipping input push.") end --#DEBUG
+    -- Defensive: always try to get a handler, fallback to default if needed
+    if not handler then
+      handler = makeInputHandler and makeInputHandler(self) or {}
+    end
 
-    saveAndSetHandler(
-      handler,
-      (masksPreviousHandlers ~= nil) and masksPreviousHandlers or self.modal
-    )
-    self._inputHandlerPushed = true
+    -- Apply modal: fill all keys if self.modal
+    if self.modal and roxy.Input.makeModalHandler then
+      handler = roxy.Input.makeModalHandler(handler)
+    end
+
+    if handler then
+      addHandler(self, handler, 100)
+      self._inputHandlerPushed = true
+    else --#DEBUG
+      logWarn("RoxyDialogue: Failed to construct valid input handler. Skipping input registration.") --#DEBUG
+    end
   end
 
   self:startTypewriter()
@@ -396,9 +402,9 @@ end
 
 -- ! Deactivate
 -- Removes dialogue from scene and resets input
-function RoxyDialogue:deactivate(masksPreviousHandlers)
+function RoxyDialogue:deactivate()
   if self._inputHandlerPushed then
-    restoreHandler()
+    removeHandler(self)
     self._inputHandlerPushed = false
   end
 
