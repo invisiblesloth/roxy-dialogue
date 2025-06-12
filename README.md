@@ -49,6 +49,7 @@ It relies on Roxy’s:
 - Sprite subclassing (`RoxySprite`)
 - Input utilities and update loop
 - Scene integration (`roxy.Scene`)
+- Configuration access (`roxy.Configuration`)
 
 It will not work in non-Roxy game projects without modification.
 

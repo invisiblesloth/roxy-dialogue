@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.3.0] - 2025-06-12
+
+### Added ✨
+- Introduced use of `roxy.Configuration.get("key")` to access `defaultTypingSpeed` and `fastTypingMultiplier` values.
+
+### Changed 🔧
+- Replaced legacy `roxy.Configuration.getConfiguration()` calls with scoped `get("key")` accessors.
+- Cached key configuration values locally to simplify typewriter setup and improve clarity.
+
+### Migration Notes 🚚
+- No required changes for plugin consumers.
+- Recommended: When extending `RoxyDialogue`, prefer `roxy.Configuration.get("key")` over accessing the full configuration table.
+
+---
+
 ## [0.2.0] - 2025-06-11
 
 ### Changed 🔧
