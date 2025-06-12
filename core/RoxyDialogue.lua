@@ -36,7 +36,7 @@ local fillRect       <const> = Graphics.fillRect
 local drawTextInRect <const> = Graphics.drawTextInRect
 
 -- Config
-local getConfiguration <const> = roxy.Configuration.getConfiguration
+local getConfigValue <const> = roxy.Configuration.get
 
 -- Asset / cache
 local getIsPoolRegistered <const> = Assets.getIsPoolRegistered
@@ -128,7 +128,8 @@ function RoxyDialogue:init(text, props)
   props = props or {}
   text  = text or ""
 
-  local config = getConfiguration()
+  local defaultTypingSpeed = getConfigValue("defaultTypingSpeed") or DEFAULT_TYPING_SPEED
+  local fastTypingMultiplier = getConfigValue("fastTypingMultiplier") or FAST_TYPING_MULTIPLIER
 
   -- Font
   self.font       = props.font      or Text.font
@@ -213,8 +214,8 @@ function RoxyDialogue:init(text, props)
     self.leading
   )
   self.typewriter = Typewriter(self.pager, {
-    baseSpeed      = props.typingSpeed or config.defaultTypingSpeed or DEFAULT_TYPING_SPEED,
-    fastMultiplier = props.fastMultiplier or config.fastTypingMultiplier or FAST_TYPING_MULTIPLIER,
+    baseSpeed      = props.typingSpeed or defaultTypingSpeed,
+    fastMultiplier = props.fastMultiplier or fastTypingMultiplier,
     fastSpeed      = props.fastTypingSpeed,
     instant        = self.instant,
   })
