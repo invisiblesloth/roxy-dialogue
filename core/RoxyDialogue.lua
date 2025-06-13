@@ -455,5 +455,3 @@ function RoxyDialogue:draw()
   local image = self.typewriter:isComplete() and self._finishedImage or self._typingBuffer
   if image then image:draw(0, 0) end
 end
-
-return RoxyDialogue
