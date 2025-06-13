@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.3.1] - 2025-06-13
+
+### Removed ❌
+- Removed `return RoxyDialogue` from `core/RoxyDialogue.lua`; no longer needed due to Playdate SDK's import handling.
+
+---
+
 ## [0.3.0] - 2025-06-12
 
 ### Added ✨
